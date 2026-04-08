@@ -99,7 +99,6 @@ def build_results(teams, api_players):
     team_results = []
     for team in teams:
         player_details = []
-        total = 0
         for pname in team["players"]:
             matched = fuzzy_match(pname, api_players)
             if matched:
@@ -107,12 +106,13 @@ def build_results(teams, api_players):
                 baseline = before.get(matched["Name"], current)
                 delta = current - baseline
                 player_details.append({"name": matched["Name"], "before": baseline, "current": current, "points": delta})
-                total += delta
             else:
                 player_details.append({"name": pname + " ❌", "before": 0, "current": 0, "points": 0})
+        players_sorted = sorted(player_details, key=lambda x: x["points"], reverse=True)
+        total = sum(p["points"] for p in players_sorted[:11])
         team_results.append({
             "team": team["team"], "owners": " & ".join(team["owners"]),
-            "total": total, "players": sorted(player_details, key=lambda x: x["points"], reverse=True),
+            "total": total, "players": players_sorted,
         })
     team_results.sort(key=lambda x: x["total"], reverse=True)
     return team_results
@@ -154,10 +154,11 @@ def generate_html(team_results):
     for t in team_results:
         color = TEAM_COLORS.get(t["team"], "#666")
         rows = ""
-        for p in t["players"]:
+        for i, p in enumerate(t["players"]):
             pts_class = "pos" if p["points"] > 0 else "neg" if p["points"] < 0 else ""
+            bench = " bench" if i >= 11 else ""
             rows += f"""
-            <tr>
+            <tr class="{bench.strip()}">
               <td>{p['name']}</td>
               <td class="num">{p['before']:.0f}</td>
               <td class="num">{p['current']:.0f}</td>
@@ -203,6 +204,7 @@ def generate_html(team_results):
   .num {{ text-align: right; font-variant-numeric: tabular-nums; }}
   .pos {{ color: #4cff9f; font-weight: 700; }}
   .neg {{ color: #ff4c6a; font-weight: 700; }}
+  .bench {{ opacity: 0.4; }}
   .table-wrap {{ overflow-x: auto; -webkit-overflow-scrolling: touch; }}
   @media (max-width: 600px) {{
     .container {{ padding: 10px; }}
