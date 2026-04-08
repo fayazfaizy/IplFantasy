@@ -27,12 +27,24 @@
   .num { text-align: right; font-variant-numeric: tabular-nums; }
   .pos { color: #4cff9f; font-weight: 700; }
   .neg { color: #ff4c6a; font-weight: 700; }
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  @media (max-width: 600px) {
+    .container { padding: 10px; }
+    h1 { font-size: 1.4em; }
+    .leaderboard th, .leaderboard td { padding: 8px 6px; font-size: 0.85em; }
+    .rank { font-size: 1.1em; width: 36px; }
+    .pts { font-size: 1.1em; }
+    .team-badge { padding: 3px 8px; font-size: 0.75em; }
+    .card-header { padding: 10px 12px; font-size: 0.95em; }
+    .player-table th, .player-table td { padding: 6px 8px; font-size: 0.8em; }
+  }
 </style>
 </head>
 <body>
 <div class="container">
   <h1>🏏 IPL Fantasy League</h1>
-  <p class="subtitle">Updated: 08 Apr 2026, 10:40 PM IST</p>
+  <p class="subtitle">Updated: 08 Apr 2026, 10:43 PM IST</p>
+  <div class="table-wrap">
   <table class="leaderboard">
     <thead><tr><th></th><th>Team</th><th>Owners</th><th style="text-align:right">Points</th></tr></thead>
     <tbody>
@@ -52,7 +64,7 @@
           <td class="rank">🥉</td>
           <td><span class="team-badge" style="background:#d4213d">RCB</span></td>
           <td>Rohan & Sandeep</td>
-          <td class="pts">100</td>
+          <td class="pts">101</td>
         </tr>
         <tr>
           <td class="rank">#4</td>
@@ -64,7 +76,7 @@
           <td class="rank">#5</td>
           <td><span class="team-badge" style="background:#ff822a">SRH</span></td>
           <td>Manoj & Stuti</td>
-          <td class="pts">11</td>
+          <td class="pts">16</td>
         </tr>
         <tr>
           <td class="rank">#6</td>
@@ -73,9 +85,11 @@
           <td class="pts">4</td>
         </tr></tbody>
   </table>
+  </div>
   
     <div class="card">
       <div class="card-header" style="background:#ea1a85">RR — Fayas & Parul <span class="card-pts">228 pts</span></div>
+      <div class="table-wrap">
       <table class="player-table">
         <thead><tr><th>Player</th><th>Before</th><th>Current</th><th>Points</th></tr></thead>
         <tbody>
@@ -170,9 +184,11 @@
               <td class="num ">+0</td>
             </tr></tbody>
       </table>
+      </div>
     </div>
     <div class="card">
       <div class="card-header" style="background:#dd1f2d">PBKS — Subal & Naman <span class="card-pts">163 pts</span></div>
+      <div class="table-wrap">
       <table class="player-table">
         <thead><tr><th>Player</th><th>Before</th><th>Current</th><th>Points</th></tr></thead>
         <tbody>
@@ -267,17 +283,19 @@
               <td class="num ">+0</td>
             </tr></tbody>
       </table>
+      </div>
     </div>
     <div class="card">
-      <div class="card-header" style="background:#d4213d">RCB — Rohan & Sandeep <span class="card-pts">100 pts</span></div>
+      <div class="card-header" style="background:#d4213d">RCB — Rohan & Sandeep <span class="card-pts">101 pts</span></div>
+      <div class="table-wrap">
       <table class="player-table">
         <thead><tr><th>Player</th><th>Before</th><th>Current</th><th>Points</th></tr></thead>
         <tbody>
             <tr>
               <td>KL Rahul</td>
               <td class="num">15</td>
-              <td class="num">111</td>
-              <td class="num pos">+96</td>
+              <td class="num">112</td>
+              <td class="num pos">+97</td>
             </tr>
             <tr>
               <td>Vipraj Nigam</td>
@@ -364,9 +382,11 @@
               <td class="num ">+0</td>
             </tr></tbody>
       </table>
+      </div>
     </div>
     <div class="card">
       <div class="card-header" style="background:#f9cd05">CSK — Shravan & Saurabh <span class="card-pts">100 pts</span></div>
+      <div class="table-wrap">
       <table class="player-table">
         <thead><tr><th>Player</th><th>Before</th><th>Current</th><th>Points</th></tr></thead>
         <tbody>
@@ -461,17 +481,19 @@
               <td class="num ">+0</td>
             </tr></tbody>
       </table>
+      </div>
     </div>
     <div class="card">
-      <div class="card-header" style="background:#ff822a">SRH — Manoj & Stuti <span class="card-pts">11 pts</span></div>
+      <div class="card-header" style="background:#ff822a">SRH — Manoj & Stuti <span class="card-pts">16 pts</span></div>
+      <div class="table-wrap">
       <table class="player-table">
         <thead><tr><th>Player</th><th>Before</th><th>Current</th><th>Points</th></tr></thead>
         <tbody>
             <tr>
               <td>David Miller</td>
               <td class="num">41</td>
-              <td class="num">50</td>
-              <td class="num pos">+9</td>
+              <td class="num">55</td>
+              <td class="num pos">+14</td>
             </tr>
             <tr>
               <td>Mohammed Siraj</td>
@@ -558,9 +580,11 @@
               <td class="num ">+0</td>
             </tr></tbody>
       </table>
+      </div>
     </div>
     <div class="card">
       <div class="card-header" style="background:#004ba0">MI — Nikhil & Priya <span class="card-pts">4 pts</span></div>
+      <div class="table-wrap">
       <table class="player-table">
         <thead><tr><th>Player</th><th>Before</th><th>Current</th><th>Points</th></tr></thead>
         <tbody>
@@ -655,6 +679,7 @@
               <td class="num ">+0</td>
             </tr></tbody>
       </table>
+      </div>
     </div>
 </div>
 </body>

@@ -166,10 +166,12 @@ def generate_html(team_results):
         team_cards += f"""
     <div class="card">
       <div class="card-header" style="background:{color}">{t['team']} — {t['owners']} <span class="card-pts">{t['total']:.0f} pts</span></div>
+      <div class="table-wrap">
       <table class="player-table">
         <thead><tr><th>Player</th><th>Before</th><th>Current</th><th>Points</th></tr></thead>
         <tbody>{rows}</tbody>
       </table>
+      </div>
     </div>"""
 
     html = f"""<!DOCTYPE html>
@@ -201,16 +203,29 @@ def generate_html(team_results):
   .num {{ text-align: right; font-variant-numeric: tabular-nums; }}
   .pos {{ color: #4cff9f; font-weight: 700; }}
   .neg {{ color: #ff4c6a; font-weight: 700; }}
+  .table-wrap {{ overflow-x: auto; -webkit-overflow-scrolling: touch; }}
+  @media (max-width: 600px) {{
+    .container {{ padding: 10px; }}
+    h1 {{ font-size: 1.4em; }}
+    .leaderboard th, .leaderboard td {{ padding: 8px 6px; font-size: 0.85em; }}
+    .rank {{ font-size: 1.1em; width: 36px; }}
+    .pts {{ font-size: 1.1em; }}
+    .team-badge {{ padding: 3px 8px; font-size: 0.75em; }}
+    .card-header {{ padding: 10px 12px; font-size: 0.95em; }}
+    .player-table th, .player-table td {{ padding: 6px 8px; font-size: 0.8em; }}
+  }}
 </style>
 </head>
 <body>
 <div class="container">
   <h1>🏏 IPL Fantasy League</h1>
   <p class="subtitle">Updated: {now}</p>
+  <div class="table-wrap">
   <table class="leaderboard">
     <thead><tr><th></th><th>Team</th><th>Owners</th><th style="text-align:right">Points</th></tr></thead>
     <tbody>{leaderboard_rows}</tbody>
   </table>
+  </div>
   {team_cards}
 </div>
 </body>
