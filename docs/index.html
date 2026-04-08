@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPL Fantasy League</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0e27; color: #e0e0e0; min-height: 100vh; }
+  .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+  h1 { text-align: center; font-size: 2em; margin: 20px 0 5px; background: linear-gradient(135deg, #f9cd05, #ea1a85, #004ba0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .subtitle { text-align: center; color: #888; margin-bottom: 30px; font-size: 0.9em; }
+  .leaderboard { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
+  .leaderboard th { background: #1a1f3d; padding: 12px; text-align: left; font-size: 0.85em; text-transform: uppercase; color: #aaa; }
+  .leaderboard td { padding: 14px 12px; border-bottom: 1px solid #1a1f3d; }
+  .leaderboard tr:hover { background: #12163a; }
+  .rank { font-size: 1.3em; width: 50px; text-align: center; }
+  .team-badge { padding: 4px 12px; border-radius: 4px; color: #fff; font-weight: 700; font-size: 0.85em; }
+  .pts { font-size: 1.4em; font-weight: 700; color: #4cff9f; text-align: right; }
+  .card { background: #111535; border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
+  .card-header { padding: 14px 20px; color: #fff; font-weight: 700; font-size: 1.1em; display: flex; justify-content: space-between; }
+  .card-pts { background: rgba(255,255,255,0.2); padding: 2px 10px; border-radius: 12px; font-size: 0.9em; }
+  .player-table { width: 100%; border-collapse: collapse; }
+  .player-table th { background: #0d1029; padding: 8px 16px; text-align: left; font-size: 0.8em; text-transform: uppercase; color: #777; }
+  .player-table td { padding: 8px 16px; border-bottom: 1px solid #1a1f3d; font-size: 0.9em; }
+  .player-table tr:hover { background: #161b40; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .pos { color: #4cff9f; font-weight: 700; }
+  .neg { color: #ff4c6a; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🏏 IPL Fantasy League</h1>
+  <p class="subtitle">Updated: 08 Apr 2026, 09:51 PM</p>
+  <table class="leaderboard">
+    <thead><tr><th></th><th>Team</th><th>Owners</th><th style="text-align:right">Points</th></tr></thead>
+    <tbody>
+        <tr>
+          <td class="rank">🥇</td>
+          <td><span class="team-badge" style="background:#dd1f2d">PBKS</span></td>
+          <td>Subal & Naman</td>
+          <td class="pts">155</td>
+        </tr>
+        <tr>
+          <td class="rank">🥈</td>
+          <td><span class="team-badge" style="background:#ea1a85">RR</span></td>
+          <td>Fayas & Parul</td>
+          <td class="pts">143</td>
+        </tr>
+        <tr>
+          <td class="rank">🥉</td>
+          <td><span class="team-badge" style="background:#f9cd05">CSK</span></td>
+          <td>Shravan & Saurabh</td>
+          <td class="pts">92</td>
+        </tr>
+        <tr>
+          <td class="rank">#4</td>
+          <td><span class="team-badge" style="background:#d4213d">RCB</span></td>
+          <td>Rohan & Sandeep</td>
+          <td class="pts">23</td>
+        </tr>
+        <tr>
+          <td class="rank">#5</td>
+          <td><span class="team-badge" style="background:#ff822a">SRH</span></td>
+          <td>Manoj & Stuti</td>
+          <td class="pts">6</td>
+        </tr>
+        <tr>
+          <td class="rank">#6</td>
+          <td><span class="team-badge" style="background:#004ba0">MI</span></td>
+          <td>Nikhil & Priya</td>
+          <td class="pts">4</td>
+        </tr></tbody>
+  </table>
+  
+    <div class="card">
+      <div class="card-header" style="background:#dd1f2d">PBKS — Subal & Naman <span class="card-pts">155 pts</span></div>
+      <table class="player-table">
+        <thead><tr><th>Player</th><th>Before</th><th>Current</th><th>Points</th></tr></thead>
+        <tbody>
+            <tr>
+              <td>Washington Sundar</td>
+              <td class="num">66</td>
+              <td class="num">149</td>
+              <td class="num pos">+83</td>
+            </tr>
+            <tr>
+              <td>Lungi Ngidi</td>
+              <td class="num">128</td>
+              <td class="num">159</td>
+              <td class="num pos">+31</td>
+            </tr>
+            <tr>
+              <td>Glenn Phillips</td>
+              <td class="num">57</td>
+              <td class="num">78</td>
+              <td class="num pos">+21</td>
+            </tr>
+            <tr>
+              <td>Sai Sudharsan</td>
+              <td class="num">123</td>
+              <td class="num">141</td>
+              <td class="num pos">+18</td>
+            </tr>
+            <tr>
+              <td>Axar Patel</td>
+              <td class="num">80</td>
+              <td class="num">82</td>
+              <td class="num pos">+2</td>
+            </tr>
+            <tr>
+              <td>Jasprit Bumrah</td>
+              <td class="num">32</td>
+              <td class="num">32</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Heinrich Klaasen</td>
+              <td class="num">220</td>
+              <td class="num">220</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Shivam Dube</td>
+              <td class="num">131</td>
+              <td class="num">131</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Naman Dhir</td>
+              <td class="num">88</td>
+              <td class="num">88</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Angkrish Raghuvanshi</td>
+              <td class="num">170</td>
+              <td class="num">170</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Krunal Pandya</td>
+              <td class="num">46</td>
+              <td class="num">46</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Ayush Badoni</td>
+              <td class="num">19</td>
+              <td class="num">19</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Mohammad Shami</td>
+              <td class="num">90</td>
+              <td class="num">90</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Jamie Overton</td>
+              <td class="num">143</td>
+              <td class="num">143</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Jacob Duffy</td>
+              <td class="num">135</td>
+              <td class="num">135</td>
+              <td class="num ">+0</td>
+            </tr></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-header" style="background:#ea1a85">RR — Fayas & Parul <span class="card-pts">143 pts</span></div>
+      <table class="player-table">
+        <thead><tr><th>Player</th><th>Before</th><th>Current</th><th>Points</th></tr></thead>
+        <tbody>
+            <tr>
+              <td>Shubman Gill</td>
+              <td class="num">71</td>
+              <td class="num">171</td>
+              <td class="num pos">+100</td>
+            </tr>
+            <tr>
+              <td>Kuldeep Yadav</td>
+              <td class="num">72</td>
+              <td class="num">107</td>
+              <td class="num pos">+35</td>
+            </tr>
+            <tr>
+              <td>Rashid Khan</td>
+              <td class="num">93</td>
+              <td class="num">97</td>
+              <td class="num pos">+4</td>
+            </tr>
+            <tr>
+              <td>Prasidh Krishna</td>
+              <td class="num">118</td>
+              <td class="num">122</td>
+              <td class="num pos">+4</td>
+            </tr>
+            <tr>
+              <td>Ishan Kishan</td>
+              <td class="num">182</td>
+              <td class="num">182</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Hardik Pandya</td>
+              <td class="num">71</td>
+              <td class="num">71</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Phil Salt</td>
+              <td class="num">115</td>
+              <td class="num">115</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Sanju Samson</td>
+              <td class="num">38</td>
+              <td class="num">38</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Khaleel Ahmed</td>
+              <td class="num">16</td>
+              <td class="num">16</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Devdutt Padikkal</td>
+              <td class="num">215</td>
+              <td class="num">215</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Dhruv Jurel</td>
+              <td class="num">192</td>
+              <td class="num">192</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Sameer Rizvi</td>
+              <td class="num">226</td>
+              <td class="num">226</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Anshul Kamboj</td>
+              <td class="num">165</td>
+              <td class="num">165</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Ravi Bishnoi</td>
+              <td class="num">215</td>
+              <td class="num">215</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Cooper Connolly</td>
+              <td class="num">169</td>
+              <td class="num">169</td>
+              <td class="num ">+0</td>
+            </tr></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-header" style="background:#f9cd05">CSK — Shravan & Saurabh <span class="card-pts">92 pts</span></div>
+      <table class="player-table">
+        <thead><tr><th>Player</th><th>Before</th><th>Current</th><th>Points</th></tr></thead>
+        <tbody>
+            <tr>
+              <td>Jos Buttler</td>
+              <td class="num">110</td>
+              <td class="num">193</td>
+              <td class="num pos">+83</td>
+            </tr>
+            <tr>
+              <td>Rahul Tewatia</td>
+              <td class="num">35</td>
+              <td class="num">40</td>
+              <td class="num pos">+5</td>
+            </tr>
+            <tr>
+              <td>Kagiso Rabada</td>
+              <td class="num">113</td>
+              <td class="num">117</td>
+              <td class="num pos">+4</td>
+            </tr>
+            <tr>
+              <td>Shreyas Iyer</td>
+              <td class="num">120</td>
+              <td class="num">120</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Ravindra Jadeja</td>
+              <td class="num">88</td>
+              <td class="num">88</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Nicholas Pooran</td>
+              <td class="num">18</td>
+              <td class="num">18</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Shimron Hetmyer</td>
+              <td class="num">63</td>
+              <td class="num">63</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Harshal Patel</td>
+              <td class="num">11</td>
+              <td class="num">11</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Ajinkya Rahane</td>
+              <td class="num">129</td>
+              <td class="num">129</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Vaibhav Arora</td>
+              <td class="num">86</td>
+              <td class="num">86</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Liam Livingstone</td>
+              <td class="num">36</td>
+              <td class="num">36</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Jitesh Sharma</td>
+              <td class="num">34</td>
+              <td class="num">34</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Marcus Stoinis</td>
+              <td class="num">21</td>
+              <td class="num">21</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Romario Shepherd</td>
+              <td class="num">81</td>
+              <td class="num">81</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Cameron Green</td>
+              <td class="num">54</td>
+              <td class="num">54</td>
+              <td class="num ">+0</td>
+            </tr></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-header" style="background:#d4213d">RCB — Rohan & Sandeep <span class="card-pts">23 pts</span></div>
+      <table class="player-table">
+        <thead><tr><th>Player</th><th>Before</th><th>Current</th><th>Points</th></tr></thead>
+        <tbody>
+            <tr>
+              <td>KL Rahul</td>
+              <td class="num">15</td>
+              <td class="num">34</td>
+              <td class="num pos">+19</td>
+            </tr>
+            <tr>
+              <td>Vipraj Nigam</td>
+              <td class="num">33</td>
+              <td class="num">37</td>
+              <td class="num pos">+4</td>
+            </tr>
+            <tr>
+              <td>Virat Kohli</td>
+              <td class="num">158</td>
+              <td class="num">158</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Travis Head</td>
+              <td class="num">101</td>
+              <td class="num">101</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Aiden Markram</td>
+              <td class="num">93</td>
+              <td class="num">93</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Arshdeep Singh</td>
+              <td class="num">24</td>
+              <td class="num">24</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Varun Chakaravarthy</td>
+              <td class="num">12</td>
+              <td class="num">12</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Rajat Patidar</td>
+              <td class="num">144</td>
+              <td class="num">144</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Rinku Singh</td>
+              <td class="num">128</td>
+              <td class="num">128</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Ruturaj Gaikwad</td>
+              <td class="num">60</td>
+              <td class="num">60</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Shashank Singh</td>
+              <td class="num">32</td>
+              <td class="num">32</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Noor Ahmad</td>
+              <td class="num">27</td>
+              <td class="num">27</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Harsh Dubey</td>
+              <td class="num">142</td>
+              <td class="num">142</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Tushar Deshpande</td>
+              <td class="num">60</td>
+              <td class="num">60</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Vijaykumar Vyshak</td>
+              <td class="num">141</td>
+              <td class="num">141</td>
+              <td class="num ">+0</td>
+            </tr></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-header" style="background:#ff822a">SRH — Manoj & Stuti <span class="card-pts">6 pts</span></div>
+      <table class="player-table">
+        <thead><tr><th>Player</th><th>Before</th><th>Current</th><th>Points</th></tr></thead>
+        <tbody>
+            <tr>
+              <td>David Miller</td>
+              <td class="num">41</td>
+              <td class="num">45</td>
+              <td class="num pos">+4</td>
+            </tr>
+            <tr>
+              <td>Mohammed Siraj</td>
+              <td class="num">35</td>
+              <td class="num">37</td>
+              <td class="num pos">+2</td>
+            </tr>
+            <tr>
+              <td>Suryakumar Yadav</td>
+              <td class="num">107</td>
+              <td class="num">107</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Sunil Narine</td>
+              <td class="num">47</td>
+              <td class="num">47</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Rohit Sharma</td>
+              <td class="num">175</td>
+              <td class="num">175</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Tilak Varma</td>
+              <td class="num">94</td>
+              <td class="num">94</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Jofra Archer</td>
+              <td class="num">138</td>
+              <td class="num">138</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Priyansh Arya</td>
+              <td class="num">77</td>
+              <td class="num">77</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Nehal Wadhera</td>
+              <td class="num">43</td>
+              <td class="num">43</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Deepak Chahar</td>
+              <td class="num">42</td>
+              <td class="num">42</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Prabhsimran Singh</td>
+              <td class="num">145</td>
+              <td class="num">145</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Ayush Mhatre</td>
+              <td class="num">112</td>
+              <td class="num">112</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Bhuvneshwar Kumar</td>
+              <td class="num">110</td>
+              <td class="num">110</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Aniket Verma</td>
+              <td class="num">87</td>
+              <td class="num">87</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Sherfane Rutherford</td>
+              <td class="num">63</td>
+              <td class="num">63</td>
+              <td class="num ">+0</td>
+            </tr></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-header" style="background:#004ba0">MI — Nikhil & Priya <span class="card-pts">4 pts</span></div>
+      <table class="player-table">
+        <thead><tr><th>Player</th><th>Before</th><th>Current</th><th>Points</th></tr></thead>
+        <tbody>
+            <tr>
+              <td>Tristan Stubbs</td>
+              <td class="num">83</td>
+              <td class="num">87</td>
+              <td class="num pos">+4</td>
+            </tr>
+            <tr>
+              <td>Abhishek Sharma</td>
+              <td class="num">89</td>
+              <td class="num">89</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Yashasvi Jaiswal</td>
+              <td class="num">263</td>
+              <td class="num">263</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Mitchell Marsh</td>
+              <td class="num">71</td>
+              <td class="num">71</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Rishabh Pant</td>
+              <td class="num">139</td>
+              <td class="num">139</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Yuzvendra Chahal</td>
+              <td class="num">95</td>
+              <td class="num">95</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Marco Jansen</td>
+              <td class="num">91</td>
+              <td class="num">91</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Nitish Kumar Reddy</td>
+              <td class="num">205</td>
+              <td class="num">205</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Ryan Rickelton</td>
+              <td class="num">156</td>
+              <td class="num">156</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Vaibhav Sooryavanshi</td>
+              <td class="num">200</td>
+              <td class="num">200</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Tim David</td>
+              <td class="num">134</td>
+              <td class="num">134</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Shardul Thakur</td>
+              <td class="num">113</td>
+              <td class="num">113</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Riyan Parag</td>
+              <td class="num">95</td>
+              <td class="num">95</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Mitchell Santner</td>
+              <td class="num">51</td>
+              <td class="num">51</td>
+              <td class="num ">+0</td>
+            </tr>
+            <tr>
+              <td>Eshan Malinga</td>
+              <td class="num">107</td>
+              <td class="num">107</td>
+              <td class="num ">+0</td>
+            </tr></tbody>
+      </table>
+    </div>
+</div>
+</body>
+</html>
