@@ -1,5 +1,5 @@
 import csv, json, sys, requests
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from difflib import SequenceMatcher
 from pathlib import Path
 
@@ -135,7 +135,8 @@ def print_leaderboard(team_results):
 
 
 def generate_html(team_results):
-    now = datetime.now().strftime("%d %b %Y, %I:%M %p")
+    ist = timezone(timedelta(hours=5, minutes=30))
+    now = datetime.now(ist).strftime("%d %b %Y, %I:%M %p IST")
 
     leaderboard_rows = ""
     for i, t in enumerate(team_results, 1):
