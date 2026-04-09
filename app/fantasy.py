@@ -107,11 +107,12 @@ def build_results(teams, api_players):
             matched = fuzzy_match(pname, api_players)
             if matched:
                 current = matched["OverallPoints"]
+                today = matched["GamedayPoints"]
                 baseline = before.get(matched["Name"], current)
                 delta = current - baseline
-                player_details.append({"name": matched["Name"], "before": baseline, "current": current, "points": delta})
+                player_details.append({"name": matched["Name"], "ipl_team": matched["TeamShortName"], "before": baseline, "current": current, "today": today, "points": delta})
             else:
-                player_details.append({"name": pname + " ❌", "before": 0, "current": 0, "points": 0})
+                player_details.append({"name": pname + " ❌", "ipl_team": "", "before": 0, "current": 0, "today": 0, "points": 0})
         players_sorted = sorted(player_details, key=lambda x: x["points"], reverse=True)
         total = sum(p["points"] for p in players_sorted[:11])
         team_results.append({
@@ -163,7 +164,8 @@ def generate_html(team_results):
             bench = " bench" if i >= 11 else ""
             rows += f"""
             <tr class="{bench.strip()}">
-              <td>{p['name']}</td>
+              <td>{p['name']} <span class="ipl-team">{p['ipl_team']}</span></td>
+              <td class="num">{p['today']:+.0f}</td>
               <td class="num">{p['before']:.0f}</td>
               <td class="num">{p['current']:.0f}</td>
               <td class="num {pts_class}">{p['points']:+.0f}</td>
@@ -173,7 +175,7 @@ def generate_html(team_results):
       <div class="card-header" style="background:{color}">{t['team']} — {t['owners']} <span class="card-pts">{t['total']:.0f} pts</span></div>
       <div class="table-wrap">
       <table class="player-table">
-        <thead><tr><th>Player</th><th>Before</th><th>Current</th><th>Points</th></tr></thead>
+        <thead><tr><th>Player</th><th>Today</th><th>Before</th><th>Current</th><th>Points</th></tr></thead>
         <tbody>{rows}</tbody>
       </table>
       </div>
@@ -209,6 +211,7 @@ def generate_html(team_results):
   .pos {{ color: #4cff9f; font-weight: 700; }}
   .neg {{ color: #ff4c6a; font-weight: 700; }}
   .bench {{ opacity: 0.4; }}
+  .ipl-team {{ font-size: 0.7em; background: #2a2f55; padding: 1px 6px; border-radius: 3px; margin-left: 6px; color: #aaa; vertical-align: middle; }}
   .table-wrap {{ overflow-x: auto; -webkit-overflow-scrolling: touch; }}
   @media (max-width: 600px) {{
     .container {{ padding: 10px; }}
