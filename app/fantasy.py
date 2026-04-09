@@ -9,12 +9,12 @@ TEAMS_CSV = BASE_DIR / "teams.csv"
 BEFORE_SCORES_FILE = BASE_DIR / "before_scores.json"
 API_URL = "https://fantasy.iplt20.com/classic/api/feed/live/gamedayplayers"
 
+MIXAPI_URL = "https://fantasy.iplt20.com/classic/api/live/mixapi"
+
 API_PARAMS = {
     "lang": "en",
-    "tourgamedayId": "14",
-    "teamgamedayId": "14",
-    "liveVersion": "1018",
-    "announcedVersion": "04082026154210",
+    "liveVersion": "1081",
+    "announcedVersion": "04092026144844",
 }
 
 API_HEADERS = {
@@ -26,7 +26,7 @@ API_HEADERS = {
 
 API_COOKIES = {
     "my11c-uid": "3156017999",
-    "my11c-authToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhdXRoIiwicHJvZHVjdF90eXBlIjoyLCJzZXNzaW9uSWQiOiIyTFE0VXJZSzR3dnVudVliMDYvTXVzUm9CK3BwdEd1VHhpVUYxYXVIZ0JKQ3pmVVpKUk1EQnE0akt6MFJVdGNOIiwidXNlcklkIjoxMzcxODQ4MDEsIndoYXRzYXBwQ2FsbCI6ZmFsc2UsImlhdCI6MTc3NTY2Mjk0NiwiZXhwIjoxNzc1NjcwMTQ2fQ.oPm8JY4zxI-kwFbrFxyNW4Mr0WriqcYpDqc1Spi6Fq4",
+    "my11c-authToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhdXRoIiwicHJvZHVjdF90eXBlIjoyLCJzZXNzaW9uSWQiOiJPRlJlYVVPUkJWaGIwVjVvZGRyOWxoSEd1MW93TXQzdVF4dGRzb0J1cWY1M2doc09pTktHa0lWanBZd0VZSHV1IiwidXNlcklkIjoxMzcxODQ4MDEsIndoYXRzYXBwQ2FsbCI6ZmFsc2UsImlhdCI6MTc3NTc0NjI3MCwiZXhwIjoxNzc1NzUzNDcwfQ.m6Ol-tyZ4wau_gNaro7-0G_HTbWuxRZYTuENRV1fI4U",
 }
 
 TEAM_COLORS = {
@@ -45,7 +45,11 @@ def load_teams():
 
 
 def fetch_api_players():
-    resp = requests.get(API_URL, params=API_PARAMS, headers=API_HEADERS, cookies=API_COOKIES)
+    mix = requests.get(MIXAPI_URL, params={"lang": "en"}, headers=API_HEADERS, cookies=API_COOKIES)
+    mix.raise_for_status()
+    gameday_id = mix.json()["Data"]["Value"]["GamedayId"]
+    params = {**API_PARAMS, "tourgamedayId": gameday_id, "teamgamedayId": gameday_id}
+    resp = requests.get(API_URL, params=params, headers=API_HEADERS, cookies=API_COOKIES)
     resp.raise_for_status()
     return resp.json()["Data"]["Value"]["Players"]
 
