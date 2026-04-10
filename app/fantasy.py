@@ -47,7 +47,11 @@ def load_teams():
 def fetch_api_players():
     mix = requests.get(MIXAPI_URL, params={"lang": "en"}, headers=API_HEADERS, cookies=API_COOKIES)
     mix.raise_for_status()
-    gameday_id = mix.json()["Data"]["Value"]["GamedayId"]
+    gameday_id = mix.json()["Data"]["Value"].get("GamedayId")
+    if not gameday_id:
+        print("No active GamedayId, skipping update.")
+        return None
+    print(f"Using GamedayId: {gameday_id}")
     params = {**API_PARAMS, "tourgamedayId": gameday_id, "teamgamedayId": gameday_id}
     resp = requests.get(API_URL, params=params, headers=API_HEADERS, cookies=API_COOKIES)
     resp.raise_for_status()
@@ -264,6 +268,8 @@ def main():
 
     print("Fetching player data...")
     api_players = fetch_api_players()
+    if not api_players:
+        return
     print(f"Fetched {len(api_players)} players.")
     results = build_results(teams, api_players)
     if not results:
