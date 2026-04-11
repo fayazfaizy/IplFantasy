@@ -181,7 +181,7 @@ def generate_html(team_results):
       <div class="card-header" style="background:{color}">{t['team']} — {t['owners']} <span class="card-pts">{t['total']:.0f} pts</span></div>
       <div class="table-wrap">
       <table class="player-table">
-        <thead><tr><th>Player</th><th>Today</th><th>Before</th><th>Current</th><th>Points</th></tr></thead>
+        <thead><tr><th onclick="sortTable(this)">Player</th><th onclick="sortTable(this)">Today</th><th onclick="sortTable(this)">Before</th><th onclick="sortTable(this)">Current</th><th onclick="sortTable(this)">Points</th></tr></thead>
         <tbody>{rows}</tbody>
       </table>
       </div>
@@ -220,6 +220,10 @@ def generate_html(team_results):
   .today-pts {{ font-size: 1em; font-weight: 600; color: #f9cd05; text-align: right; }}
   .ipl-team {{ font-size: 0.7em; background: #2a2f55; padding: 1px 6px; border-radius: 3px; margin-left: 6px; color: #aaa; vertical-align: middle; }}
   .table-wrap {{ overflow-x: auto; -webkit-overflow-scrolling: touch; }}
+  .leaderboard th, .player-table th {{ cursor: pointer; user-select: none; }}
+  .leaderboard th:hover, .player-table th:hover {{ color: #fff; }}
+  th.sort-asc::after {{ content: ' ▲'; font-size: 0.75em; }}
+  th.sort-desc::after {{ content: ' ▼'; font-size: 0.75em; }}
   @media (max-width: 600px) {{
     .container {{ padding: 10px; }}
     h1 {{ font-size: 1.4em; }}
@@ -238,12 +242,31 @@ def generate_html(team_results):
   <p class="subtitle">Updated: {now}</p>
   <div class="table-wrap">
   <table class="leaderboard">
-    <thead><tr><th></th><th>Team</th><th>Owners</th><th style="text-align:right">Today</th><th style="text-align:right">Total</th></tr></thead>
+    <thead><tr><th onclick="sortTable(this)"></th><th onclick="sortTable(this)">Team</th><th onclick="sortTable(this)">Owners</th><th onclick="sortTable(this)" style="text-align:right">Today</th><th onclick="sortTable(this)" style="text-align:right">Total</th></tr></thead>
     <tbody>{leaderboard_rows}</tbody>
   </table>
   </div>
   {team_cards}
 </div>
+<script>
+function sortTable(th) {{
+  const table = th.closest('table');
+  const tbody = table.querySelector('tbody');
+  const idx = Array.from(th.parentElement.children).indexOf(th);
+  const asc = !th.classList.contains('sort-asc');
+  table.querySelectorAll('th').forEach(h => h.classList.remove('sort-asc', 'sort-desc'));
+  th.classList.add(asc ? 'sort-asc' : 'sort-desc');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  rows.sort((a, b) => {{
+    const av = a.children[idx]?.textContent.trim().replace(/[^\d.-]/g, '') || '';
+    const bv = b.children[idx]?.textContent.trim().replace(/[^\d.-]/g, '') || '';
+    const an = parseFloat(av), bn = parseFloat(bv);
+    if (!isNaN(an) && !isNaN(bn)) return asc ? an - bn : bn - an;
+    return asc ? av.localeCompare(bv) : bv.localeCompare(av);
+  }});
+  rows.forEach(r => tbody.appendChild(r));
+}}
+</script>
 </body>
 </html>"""
 
