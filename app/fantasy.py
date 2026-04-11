@@ -119,9 +119,10 @@ def build_results(teams, api_players):
                 player_details.append({"name": pname + " ❌", "ipl_team": "", "before": 0, "current": 0, "today": 0, "points": 0})
         players_sorted = sorted(player_details, key=lambda x: x["points"], reverse=True)
         total = sum(p["points"] for p in players_sorted[:11])
+        today_total = sum(p["today"] for p in players_sorted[:11])
         team_results.append({
             "team": team["team"], "owners": " & ".join(team["owners"]),
-            "total": total, "players": players_sorted,
+            "total": total, "today_total": today_total, "players": players_sorted,
         })
     team_results.sort(key=lambda x: x["total"], reverse=True)
     return team_results
@@ -156,6 +157,7 @@ def generate_html(team_results):
           <td class="rank">{medal}</td>
           <td><span class="team-badge" style="background:{color}">{t['team']}</span></td>
           <td>{t['owners']}</td>
+          <td class="num today-pts">{t['today_total']:+.0f}</td>
           <td class="pts">{t['total']:.0f}</td>
         </tr>"""
 
@@ -215,6 +217,7 @@ def generate_html(team_results):
   .pos {{ color: #4cff9f; font-weight: 700; }}
   .neg {{ color: #ff4c6a; font-weight: 700; }}
   .bench {{ opacity: 0.4; }}
+  .today-pts {{ font-size: 1em; font-weight: 600; color: #f9cd05; text-align: right; }}
   .ipl-team {{ font-size: 0.7em; background: #2a2f55; padding: 1px 6px; border-radius: 3px; margin-left: 6px; color: #aaa; vertical-align: middle; }}
   .table-wrap {{ overflow-x: auto; -webkit-overflow-scrolling: touch; }}
   @media (max-width: 600px) {{
@@ -235,7 +238,7 @@ def generate_html(team_results):
   <p class="subtitle">Updated: {now}</p>
   <div class="table-wrap">
   <table class="leaderboard">
-    <thead><tr><th></th><th>Team</th><th>Owners</th><th style="text-align:right">Points</th></tr></thead>
+    <thead><tr><th></th><th>Team</th><th>Owners</th><th style="text-align:right">Today</th><th style="text-align:right">Total</th></tr></thead>
     <tbody>{leaderboard_rows}</tbody>
   </table>
   </div>
