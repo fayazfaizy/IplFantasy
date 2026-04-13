@@ -34,6 +34,33 @@ TEAM_COLORS = {
     "SRH": "#ff822a", "PBKS": "#dd1f2d", "RR": "#ea1a85",
 }
 
+PLAYER_PRICES = {
+    "Virat Kohli": 305, "Travis Head": 160, "Aiden Markram": 140, "Arshdeep Singh": 100,
+    "KL Rahul": 85, "Varun Chakaravarthy": 65, "Rajat Patidar": 40, "Rinku Singh": 20,
+    "Ruturaj Gaikwad": 25, "Vipraj Nigam": 10, "Shashank Singh": 10, "Noor Ahmad": 10,
+    "Harsh Dubey": 10, "Tushar Deshpande": 10, "Vijaykumar Vyshak": 10,
+    "Shreyas Iyer": 270, "Ravindra Jadeja": 155, "Nicholas Pooran": 190, "Jos Buttler": 160,
+    "Shimron Hetmyer": 55, "Harshal Patel": 20, "Ajinkya Rahane": 40, "Vaibhav Arora": 15,
+    "Liam Livingstone": 15, "Rahul Tewatia": 15, "Jitesh Sharma": 15, "Marcus Stoinis": 15,
+    "Romario Shepherd": 15, "Cameron Green": 10, "Kagiso Rabada": 10,
+    "Abhishek Sharma": 200, "Yashasvi Jaiswal": 190, "Mitchell Marsh": 110, "Rishabh Pant": 90,
+    "Yuzvendra Chahal": 70, "Marco Jansen": 70, "Nitish Kumar Reddy": 35, "Ryan Rickelton": 40,
+    "Vaibhav Sooryavanshi": 50, "Tim David": 40, "Tristan Stubbs": 20, "Shardul Thakur": 20,
+    "Riyan Parag": 20, "Mitchell Santner": 35, "Eshan Malinga": 10,
+    "Suryakumar Yadav": 170, "Sunil Narine": 150, "Rohit Sharma": 200, "Tilak Varma": 120,
+    "Jofra Archer": 60, "Priyansh Arya": 60, "Nehal Wadhera": 30, "Mohammed Siraj": 20,
+    "Deepak Chahar": 20, "Prabhsimran Singh": 40, "Ayush Mhatre": 45, "Bhuvneshwar Kumar": 30,
+    "Aniket Verma": 15, "David Miller": 20, "Sherfane Rutherford": 10,
+    "Jasprit Bumrah": 170, "Heinrich Klaasen": 205, "Shivam Dube": 170, "Sai Sudharsan": 190,
+    "Axar Patel": 90, "Naman Dhir": 25, "Angkrish Raghuvanshi": 50, "Krunal Pandya": 30,
+    "Ayush Badoni": 10, "Mohammad Shami": 10, "Washington Sundar": 10, "Jamie Overton": 10,
+    "Lungi Ngidi": 10, "Glenn Phillips": 10, "Jacob Duffy": 10,
+    "Ishan Kishan": 230, "Hardik Pandya": 190, "Shubman Gill": 110, "Phil Salt": 85,
+    "Rashid Khan": 55, "Kuldeep Yadav": 30, "Sanju Samson": 70, "Khaleel Ahmed": 20,
+    "Devdutt Padikkal": 35, "Dhruv Jurel": 40, "Prasidh Krishna": 25, "Sameer Rizvi": 25,
+    "Anshul Kamboj": 10, "Ravi Bishnoi": 15, "Cooper Connolly": 20,
+}
+
 
 def load_teams():
     teams = []
@@ -168,20 +195,25 @@ def generate_html(team_results):
         for i, p in enumerate(t["players"]):
             pts_class = "pos" if p["points"] > 0 else "neg" if p["points"] < 0 else ""
             bench = " bench" if i >= 11 else ""
+            price = PLAYER_PRICES.get(p['name'], 0)
+            pct = round(p['points'] / t['total'] * 100, 1) if t['total'] else 0
+            pct_str = f"{pct:.1f}" if pct != int(pct) else f"{int(pct)}"
             rows += f"""
             <tr class="{bench.strip()}">
               <td>{p['name']} <span class="ipl-team">{p['ipl_team']}</span></td>
-              <td class="num">{p['before']:.0f}</td>
-              <td class="num">{p['current']:.0f}</td>
+              <td class="num price">{price}L</td>
+              <td class="num col-bc">{p['before']:.0f}</td>
+              <td class="num col-bc">{p['current']:.0f}</td>
               <td class="num today-pts">{p['today']:+.0f}</td>
               <td class="num {pts_class}">{p['points']:+.0f}</td>
+              <td class="num pct">{pct_str}%</td>
             </tr>"""
         team_cards += f"""
     <div class="card">
       <div class="card-header" style="background:{color}">{t['team']} — {t['owners']} <span class="card-pts">{t['total']:.0f} pts</span></div>
       <div class="table-wrap">
       <table class="player-table">
-        <thead><tr><th onclick="sortTable(this)">Player</th><th onclick="sortTable(this)">Before</th><th onclick="sortTable(this)">Current</th><th onclick="sortTable(this)">Today</th><th onclick="sortTable(this)">Points</th></tr></thead>
+        <thead><tr><th onclick="sortTable(this)">Player</th><th onclick="sortTable(this)">Price</th><th onclick="sortTable(this)" class="col-bc">Before</th><th onclick="sortTable(this)" class="col-bc">Current</th><th onclick="sortTable(this)">Today</th><th onclick="sortTable(this)">Points</th><th onclick="sortTable(this)">%</th></tr></thead>
         <tbody>{rows}</tbody>
       </table>
       </div>
@@ -218,6 +250,11 @@ def generate_html(team_results):
   .neg {{ color: #ff4c6a; font-weight: 700; }}
   .bench {{ opacity: 0.4; }}
   .today-pts {{ font-size: 1em; font-weight: 600; color: #f9cd05; text-align: right; }}
+  .price {{ color: #4cff9f; font-size: 0.85em; }}
+  .pct {{ color: #aaa; font-size: 0.85em; }}
+  .col-toggle {{ display: inline-block; margin: 0 0 12px; padding: 5px 14px; background: #1a1f3d; color: #aaa; border: 1px solid #2a2f55; border-radius: 6px; font-size: 0.8em; cursor: pointer; user-select: none; }}
+  .col-toggle.active {{ color: #4cff9f; border-color: #4cff9f; }}
+  .hide-bc .col-bc {{ display: none; }}
   .ipl-team {{ font-size: 0.7em; background: #2a2f55; padding: 1px 6px; border-radius: 3px; margin-left: 6px; color: #aaa; vertical-align: middle; }}
   .table-wrap {{ overflow-x: auto; -webkit-overflow-scrolling: touch; }}
   .leaderboard th, .player-table th {{ cursor: pointer; user-select: none; }}
@@ -237,7 +274,7 @@ def generate_html(team_results):
 </style>
 </head>
 <body>
-<div class="container">
+<div class="container hide-bc">
   <h1>🏏 IPL Fantasy League</h1>
   <p class="subtitle">Updated: {now}</p>
   <div class="table-wrap">
@@ -246,9 +283,14 @@ def generate_html(team_results):
     <tbody>{leaderboard_rows}</tbody>
   </table>
   </div>
+  <span class="col-toggle" onclick="toggleBC(this)">Show Before / Current</span>
   {team_cards}
 </div>
 <script>
+function toggleBC(btn) {{
+  document.querySelector('.container').classList.toggle('hide-bc');
+  btn.classList.toggle('active');
+}}
 function sortTable(th) {{
   const table = th.closest('table');
   const tbody = table.querySelector('tbody');
