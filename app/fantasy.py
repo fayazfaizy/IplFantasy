@@ -171,9 +171,9 @@ def generate_html(team_results):
             rows += f"""
             <tr class="{bench.strip()}">
               <td>{p['name']} <span class="ipl-team">{p['ipl_team']}</span></td>
-              <td class="num">{p['today']:+.0f}</td>
               <td class="num">{p['before']:.0f}</td>
               <td class="num">{p['current']:.0f}</td>
+              <td class="num today-pts">{p['today']:+.0f}</td>
               <td class="num {pts_class}">{p['points']:+.0f}</td>
             </tr>"""
         team_cards += f"""
@@ -181,7 +181,7 @@ def generate_html(team_results):
       <div class="card-header" style="background:{color}">{t['team']} — {t['owners']} <span class="card-pts">{t['total']:.0f} pts</span></div>
       <div class="table-wrap">
       <table class="player-table">
-        <thead><tr><th onclick="sortTable(this)">Player</th><th onclick="sortTable(this)">Today</th><th onclick="sortTable(this)">Before</th><th onclick="sortTable(this)">Current</th><th onclick="sortTable(this)">Points</th></tr></thead>
+        <thead><tr><th onclick="sortTable(this)">Player</th><th onclick="sortTable(this)">Before</th><th onclick="sortTable(this)">Current</th><th onclick="sortTable(this)">Today</th><th onclick="sortTable(this)">Points</th></tr></thead>
         <tbody>{rows}</tbody>
       </table>
       </div>
