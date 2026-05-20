@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python app/fantasy.py html)",
+      "Bash(python3 app/fantasy.py html)",
+      "Bash(pip3 install *)",
+      "Bash(find /Users/fayas -name \"activate\" -path \"*/bin/activate\" 2>/dev/null | head -5)",
+      "Read(//Users/fayas/**)",
+      "Bash(python3 -m venv /tmp/ipl-venv)",
+      "Bash(/tmp/ipl-venv/bin/pip install *)",
+      "Bash(/tmp/ipl-venv/bin/python app/fantasy.py html)"
+    ]
+  }
+}

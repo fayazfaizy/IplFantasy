@@ -73,6 +73,9 @@ def load_teams():
 
 def fetch_api_players():
     mix = requests.get(MIXAPI_URL, params={"lang": "en"}, headers=API_HEADERS, cookies=API_COOKIES)
+    if mix.status_code in (502, 503, 504):
+        print(f"API unavailable ({mix.status_code}), skipping update.")
+        return None
     mix.raise_for_status()
     gameday_id = mix.json()["Data"]["Value"].get("GamedayId")
     if not gameday_id:
@@ -300,8 +303,8 @@ function sortTable(th) {{
   th.classList.add(asc ? 'sort-asc' : 'sort-desc');
   const rows = Array.from(tbody.querySelectorAll('tr'));
   rows.sort((a, b) => {{
-    const av = a.children[idx]?.textContent.trim().replace(/[^\d.-]/g, '') || '';
-    const bv = b.children[idx]?.textContent.trim().replace(/[^\d.-]/g, '') || '';
+    const av = a.children[idx]?.textContent.trim().replace(/[^\\d.-]/g, '') || '';
+    const bv = b.children[idx]?.textContent.trim().replace(/[^\\d.-]/g, '') || '';
     const an = parseFloat(av), bn = parseFloat(bv);
     if (!isNaN(an) && !isNaN(bn)) return asc ? an - bn : bn - an;
     return asc ? av.localeCompare(bv) : bv.localeCompare(av);
@@ -331,6 +334,8 @@ def main():
     if cmd == "snapshot":
         print("Fetching player data...")
         api_players = fetch_api_players()
+        if not api_players:
+            return
         snapshot_before(api_players)
         return
 
